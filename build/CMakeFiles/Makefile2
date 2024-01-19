@@ -57,7 +57,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /Users/guilhermecruz/Projeto/OpenGl/dependencies/include/glm
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/guilhermecruz/Projeto/OpenGl/build
+CMAKE_BINARY_DIR = /Users/guilhermecruz/Projeto/DragonRage/build
 
 #=============================================================================
 # Directory level rules for the build root directory

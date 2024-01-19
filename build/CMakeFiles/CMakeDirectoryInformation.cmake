@@ -3,7 +3,7 @@
 
 # Relative path conversion top directories.
 set(CMAKE_RELATIVE_PATH_TOP_SOURCE "/Users/guilhermecruz/Projeto/OpenGl/dependencies/include/glm")
-set(CMAKE_RELATIVE_PATH_TOP_BINARY "/Users/guilhermecruz/Projeto/OpenGl/build")
+set(CMAKE_RELATIVE_PATH_TOP_BINARY "/Users/guilhermecruz/Projeto/DragonRage/build")
 
 # Force unix paths in dependencies.
 set(CMAKE_FORCE_UNIX_PATHS 1)

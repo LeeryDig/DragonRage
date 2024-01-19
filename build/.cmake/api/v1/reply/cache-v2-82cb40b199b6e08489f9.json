@@ -67,7 +67,7 @@
 				}
 			],
 			"type" : "INTERNAL",
-			"value" : "/Users/guilhermecruz/Projeto/OpenGl/build"
+			"value" : "/Users/guilhermecruz/Projeto/DragonRage/build"
 		},
 		{
 			"name" : "CMAKE_CACHE_MAJOR_VERSION",
@@ -503,7 +503,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/guilhermecruz/Projeto/OpenGl/build/CMakeFiles/pkgRedirects"
+			"value" : "/Users/guilhermecruz/Projeto/DragonRage/build/CMakeFiles/pkgRedirects"
 		},
 		{
 			"name" : "CMAKE_GENERATOR",
@@ -1179,7 +1179,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "/Users/guilhermecruz/Projeto/OpenGl/build"
+			"value" : "/Users/guilhermecruz/Projeto/DragonRage/build"
 		},
 		{
 			"name" : "Project_IS_TOP_LEVEL",

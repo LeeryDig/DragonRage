@@ -1,6 +1,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#include <cmath>
+
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -70,15 +72,28 @@ public:
 
     void ProcessKeyboard(Camera_Movement direction, float deltaTime)
     {
+
         float velocity = MovementSpeed * deltaTime;
+        Front = glm::normalize(Front);
+
+        glm::vec3 movementDirection = glm::normalize(glm::vec3(Front.x, 0.0f, Front.z));
+
         if (direction == FORWARD)
-            Position += Front * velocity;
+        {
+            Position += movementDirection * velocity;
+        }
         if (direction == BACKWARD)
-            Position -= Front * velocity;
+        {
+            Position -= movementDirection * velocity;
+        }
         if (direction == LEFT)
+        {
             Position -= Right * velocity;
+        }
         if (direction == RIGHT)
+        {
             Position += Right * velocity;
+        }
 
         Position.y = 0.0f;
     }

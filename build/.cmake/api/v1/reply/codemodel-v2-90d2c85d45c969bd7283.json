@@ -28,7 +28,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/guilhermecruz/Projeto/OpenGl/build",
+		"build" : "/Users/guilhermecruz/Projeto/DragonRage/build",
 		"source" : "/Users/guilhermecruz/Projeto/OpenGl/dependencies/include/glm"
 	},
 	"version" : 
