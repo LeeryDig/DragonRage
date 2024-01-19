@@ -1,0 +1,2 @@
+/Users/guilhermecruz/Projeto/OpenGl/build/CMakeFiles/edit_cache.dir
+/Users/guilhermecruz/Projeto/OpenGl/build/CMakeFiles/rebuild_cache.dir
