@@ -70,32 +70,38 @@ public:
         return glm::lookAt(Position, Position + Front, Up);
     }
 
-    void ProcessKeyboard(Camera_Movement direction, float deltaTime)
+    void FirstPersonShooterMovement(Camera_Movement direction, float deltaTime)
     {
-
         float velocity = MovementSpeed * deltaTime;
         Front = glm::normalize(Front);
 
         glm::vec3 movementDirection = glm::normalize(glm::vec3(Front.x, 0.0f, Front.z));
 
         if (direction == FORWARD)
-        {
             Position += movementDirection * velocity;
-        }
         if (direction == BACKWARD)
-        {
             Position -= movementDirection * velocity;
-        }
         if (direction == LEFT)
-        {
             Position -= Right * velocity;
-        }
         if (direction == RIGHT)
-        {
             Position += Right * velocity;
-        }
 
         Position.y = 0.0f;
+    }
+
+    void FlyingMovement(Camera_Movement direction, float deltaTime)
+    {
+        float velocity = MovementSpeed * deltaTime;
+
+        if (direction == FORWARD)
+            Position += Front * velocity;
+        if (direction == BACKWARD)
+            Position -= Front * velocity;
+        if (direction == LEFT)
+            Position -= Right * velocity;
+        if (direction == RIGHT)
+            Position += Right * velocity;
+
     }
 
     void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true)
