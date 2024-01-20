@@ -17,6 +17,7 @@
 #include <iostream>
 #include <filesystem>
 #include <string>
+#include<array> 
 
 using namespace std;
 
@@ -32,10 +33,12 @@ const unsigned int SCR_HEIGHT = 700;
 const string pathToImage = "resource/images/";
 string title = "DragonRage";
 
-Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
+Camera camera(glm::vec3(0.0f, 0.0f, -3.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
+
+bool gameMode = false;
 
 int fps = 0;
 
@@ -44,7 +47,7 @@ float lastFrame = 0.0f;
 
 void render()
 {
-    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
@@ -68,10 +71,10 @@ int main()
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    glfwSetCursorPosCallback(window, mouse_callback);
+    
     glfwSetScrollCallback(window, scroll_callback);
-
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetCursorPosCallback(window, mouse_callback);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -123,20 +126,21 @@ int main()
         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
         -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f
+        };
 
     glm::vec3 cubePositions[] = {
         glm::vec3(0.0f, -1.0f, 0.0f),
         glm::vec3(1.0f, -1.0f, 0.0f),
         glm::vec3(-1.0f, -1.0f, 0.0f),
-        // glm::vec3(-3.8f, -2.0f, -12.3f),
-        // glm::vec3(2.4f, -0.4f, -3.5f),
-        // glm::vec3(-1.7f, 3.0f, -7.5f),
-        // glm::vec3(1.3f, -2.0f, -2.5f),
-        // glm::vec3(1.5f, 2.0f, -2.5f),
-        // glm::vec3(1.5f, 0.2f, -1.5f),
-        // glm::vec3(-1.3f, 1.0f, -1.5f)
+        glm::vec3(0.0f, -1.0f, 1.0f),
+        glm::vec3(1.0f, -1.0f, 1.0f),
+        glm::vec3(-1.0f, -1.0f, 1.0f),
+        glm::vec3(0.0f, -1.0f, -1.0f),
+        glm::vec3(1.0f, -1.0f, -1.0f),
+        glm::vec3(-1.0f, -1.0f, -1.0f),
     };
+
     unsigned int VBO, VAO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -152,7 +156,7 @@ int main()
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-    unsigned int texture1, texture2;
+    unsigned int texture1;
     glGenTextures(1, &texture1);
     glBindTexture(GL_TEXTURE_2D, texture1);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -173,28 +177,9 @@ int main()
         std::cout << "Failed to load texture" << std::endl;
     }
     stbi_image_free(data);
-    glGenTextures(1, &texture2);
-    glBindTexture(GL_TEXTURE_2D, texture2);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    image = pathToImage + "container.png";
-    data = stbi_load(image.c_str(), &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "Failed to load texture" << std::endl;
-    }
-    stbi_image_free(data);
 
     ourShader.use();
     ourShader.setInt("texture1", 0);
-    ourShader.setInt("texture2", 1);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -204,8 +189,6 @@ int main()
         render();
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, texture1);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, texture2);
 
         ourShader.use();
 
@@ -216,7 +199,8 @@ int main()
         ourShader.setMat4("view", view);
 
         glBindVertexArray(VAO);
-        for (unsigned int i = 0; i < 3; i++)
+        auto num_elements = sizeof(cubePositions) / sizeof(cubePositions[0]);
+        for (unsigned int i = 0; i < num_elements; i++)
         {
             glm::mat4 model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
@@ -247,7 +231,7 @@ void calculateFps(GLFWwindow *window)
     {
         std::string FPS = std::to_string((1.0 / deltaTime) * fps);
         std::string ms = std::to_string((deltaTime / fps) * 1000);
-        std::string newTitle = title + " FPS:" + FPS + " ms:" + ms;
+        std::string newTitle = title + " FPS:" + FPS + " ms:" + ms + " Game mode: " + std::to_string(gameMode);
         glfwSetWindowTitle(window, newTitle.c_str());
         lastFrame = currentFrame;
         fps = 0;
@@ -256,17 +240,38 @@ void calculateFps(GLFWwindow *window)
 
 void processInput(GLFWwindow *window)
 {
+    if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
+        gameMode = !gameMode;
+
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
-    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        camera.FirstPersonShooterMovement(FORWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        camera.FirstPersonShooterMovement(BACKWARD, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        camera.FirstPersonShooterMovement(LEFT, deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        camera.FirstPersonShooterMovement(RIGHT, deltaTime);
+    if (!gameMode)
+    {
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+            camera.FlyingMovement(FORWARD, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+            camera.FlyingMovement(BACKWARD, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+            camera.FlyingMovement(LEFT, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+            camera.FlyingMovement(RIGHT, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+            camera.FlyingMovement(UPWARD, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+            camera.FlyingMovement(DONWARD, deltaTime);
+    }
+    else
+    {
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+            camera.FirstPersonShooterMovement(FORWARD, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+            camera.FirstPersonShooterMovement(BACKWARD, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+            camera.FirstPersonShooterMovement(LEFT, deltaTime);
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+            camera.FirstPersonShooterMovement(RIGHT, deltaTime);
+    }
 }
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
