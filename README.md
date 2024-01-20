@@ -1,5 +1,5 @@
 # DragonRage
-Melhor engine de games já feita
+Melhor Engine em produção
 
 ## Opcional para MacOS
 - homebrew Para facilitar instalações importante
