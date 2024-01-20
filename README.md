@@ -1,15 +1,15 @@
 # DragonRage
 Melhor engine de games já feita
 
-# Opcional 
-# MacOS
+## Opcional para MacOS
 - homebrew Para facilitar instalações importante
 
-# Gerar uma build MacOs
+## Gerar uma build MacOS
 Se tiver usando o vscode:
 - Na aba de "Terminal" selecione: "Configure Default Build Task"
 - Selecione a opção de Build "C/C++: clang++"
 - Dentro do "tasks.json" na seção "args:[]":
+```json
 [
 "-std=c++17",
 "-fdiagnostics-color=always",
@@ -34,5 +34,6 @@ Se tiver usando o vscode:
 "CoreFoundation",
 "-Wno-deprecated"
 ]
+```
 - Depois tente fazer uma build com o comando cmd + shift + B
 - Para rodar abra um terminal e coloque o comando $./DragonRage
