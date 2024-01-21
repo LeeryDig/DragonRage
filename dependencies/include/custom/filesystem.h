@@ -3,6 +3,7 @@
 
 #include <string>
 #include <cstdlib>
+#include <iostream>
 
 class FileSystem
 {
@@ -20,7 +21,6 @@ private:
   static std::string const & getRoot()
   {
     static char const * envRoot = getenv("LOGL_ROOT_PATH");
-    // static char const * givenRoot = (envRoot != nullptr ? envRoot : logl_root);
     static std::string root = envRoot;
     return root;
   }
