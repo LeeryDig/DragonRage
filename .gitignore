@@ -1,9 +1,9 @@
 .vscode/
-DragonRage.dSYM/
-DragonRage/
+DragonRage.dSYM/*
 
 ##### MacOS
 # General
 .DS_Store
 .AppleDouble
 .LSOverride
+DragonRage
