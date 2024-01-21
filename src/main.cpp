@@ -17,7 +17,7 @@
 #include <iostream>
 #include <filesystem>
 #include <string>
-#include<array> 
+#include <array>
 
 using namespace std;
 
@@ -33,7 +33,7 @@ const unsigned int SCR_HEIGHT = 700;
 const string pathToImage = "resource/images/";
 string title = "DragonRage";
 
-Camera camera(glm::vec3(0.0f, 0.0f, -3.0f));
+Camera camera(glm::vec3(0.0f, 0.0f, 0.0f));
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -71,7 +71,7 @@ int main()
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-    
+
     glfwSetScrollCallback(window, scroll_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetCursorPosCallback(window, mouse_callback);
@@ -86,48 +86,12 @@ int main()
     Shader ourShader("resource/texture.vs", "resource/texture.fs");
 
     float vertices[] = {
-        // -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, //Front face
-        // 0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-        // 0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        // 0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        // -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-        // -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-
-        // -0.5f, -0.5f, 0.5f, 0.0f, 0.0f, //Back face
-        // 0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        // 0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-        // 0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-        // -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-        // -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-
-        // -0.5f, 0.5f, 0.5f, 1.0f, 0.0f, //Right face
-        // -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        // -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        // -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        // -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        // -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-
-        // 0.5f, 0.5f, 0.5f, 1.0f, 0.0f, //Left face
-        // 0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-        // 0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        // 0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-        // 0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        // 0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-
-        // -0.5f, -0.5f, -0.5f, 0.0f, 1.0f, //Bottom face
-        // 0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
-        // 0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        // 0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-        // -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-        // -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // Top face
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f, // Top face 
         0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
         0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
         -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
-        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f
-        };
+        -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
 
     glm::vec3 cubePositions[] = {
         glm::vec3(0.0f, -1.0f, 0.0f),
@@ -204,8 +168,6 @@ int main()
         {
             glm::mat4 model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
-            float angle = 20.0f * i;
-            model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             ourShader.setMat4("model", model);
 
             glDrawArrays(GL_TRIANGLES, 0, 36);

@@ -1,6 +1,6 @@
-*.vscode
-*.DragonRage.dSYM
-./DragonRage
+.vscode/
+DragonRage.dSYM/
+DragonRage/
 
 ##### MacOS
 # General
