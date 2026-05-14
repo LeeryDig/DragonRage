@@ -1,0 +1,2 @@
+/Users/guilhermecruz/Projetos/DragonRage/build/CMakeFiles/edit_cache.dir
+/Users/guilhermecruz/Projetos/DragonRage/build/CMakeFiles/rebuild_cache.dir
